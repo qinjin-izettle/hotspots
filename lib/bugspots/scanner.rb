@@ -4,7 +4,7 @@ module Bugspots
   Fix = Struct.new(:message, :date, :files)
   Spot = Struct.new(:file, :score)
 
-  def self.scan(repo, branch = "master", depth = 500, regex = nil)
+  def self.scan(repo, branch = "master", depth = 2, regex = nil)
     regex ||= /\b(fix(es|ed)?|close(s|d)?)\b/i
     fixes = []
 
@@ -43,6 +43,8 @@ module Bugspots
     spots = hotspots.sort_by {|k,v| v}.reverse.collect do |spot|
       Spot.new(spot.first, sprintf('%.4f', spot.last))
     end
+
+    spots = spots.length > depth ? spots.slice(0, depth) : spots
 
     return fixes, spots
   end

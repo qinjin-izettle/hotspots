@@ -54,14 +54,6 @@ begin
   puts "\tFound #{fixes.size} bugfix commits, with #{spots.size} hotspots:".foreground(:yellow)
   puts
 
-  puts "\tFixes:".foreground(:green).underline
-  fixes.each do |fix|
-    message = "\t\t- "
-    message << "#{fix.date} " if options[:display_timestamps]
-    message << "#{fix.message}"
-    puts message.foreground(:yellow)
-  end
-
   puts "\n"
   puts "\tHotspots:".foreground(:green).underline
   spots.each do |spot|
