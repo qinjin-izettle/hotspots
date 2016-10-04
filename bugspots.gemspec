@@ -5,9 +5,9 @@ require "bugspots/version"
 Gem::Specification.new do |s|
   s.name        = "bugspots"
   s.version     = Bugspots::VERSION
-  s.authors     = ["Ilya Grigorik"]
-  s.email       = ["ilya@igvita.com"]
-  s.homepage    = "https://github.com/igrigorik/bugspots"
+  s.authors     = ["Qinjin Wang"]
+  s.email       = ["qinjin@izettle.com"]
+  s.homepage    = "https://github.com/qinjin-izettle/hotspots"
   s.summary     = "Implementation of simple bug prediction hotspot heuristic"
   s.description = s.summary
 
