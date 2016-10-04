@@ -1,7 +1,7 @@
 require "rugged"
 
 module Bugspots
-  Fix = Struct.new(:message, :date, :files)
+  Fix = Struct.new(:message, :date, :files, :hash)
   Spot = Struct.new(:file, :score)
 
   def self.scan(repo, branch = "master", depth = 5, regex = nil)
@@ -21,7 +21,7 @@ module Bugspots
         files = commit.diff(commit.parents.first).deltas.collect do |d|
           d.old_file[:path]
         end
-        fixes << Fix.new(commit.message.scrub.split("\n").first, commit.time, files)
+        fixes << Fix.new(commit.message.scrub.split("\n").first, commit.time, files, commit.oid)
       end
     end
 

@@ -29,7 +29,7 @@ OptionParser.new do |opts|
     options[:regex] = Regexp.new(words.split(',').join('|'))
   end
 
-  # Option: Set Bugfix Indicator
+  # Option: Set Bugfix Regex
   opts.on('-r', '--regex [regex]', Regexp, 'bugfix indicator regex, ie: "fix(es|ed)?" or "/fixes #(\d+)/i"') do |regex|
     options[:regex] = regex
   end
@@ -46,26 +46,24 @@ options[:depth] ||= 50
 # Set master as the default branch
 options[:branch] ||= "master"
 
-puts "Scanning #{ARGV[0]} repo".foreground(:green)
+puts "Scanning #{ARGV[0]} repo...".foreground(:green)
 
 begin
   fixes, spots = Bugspots.scan(ARGV[0], options[:branch], options[:depth], options[:regex])
 
-  puts "\tFound #{fixes.size} bugfix commits, with #{spots.size} hotspots:".foreground(:yellow)
-  puts
-
-  puts "\n"
+  puts "\tFound #{fixes.size} commits, with #{spots.size} hotspots:".foreground(:yellow)
   puts "\tHotspots:".foreground(:green).underline
   spots.each do |spot|
     puts "\t\t#{spot.score}".foreground(:red) + " - #{spot.file}".foreground(:yellow)
 	end
 
-  puts "\tFixes:".foreground(:green).underline
+  puts "\tCommits:".foreground(:green).underline
   fixes.each do |fix|
     message = "\t\tin #{fix.files.length} files".foreground(:red)
     message << " - "
-    message << "#{fix.date} ".foreground(:yellow) if options[:display_timestamps]
+    message << "#{fix.date} ".foreground(:green) if options[:display_timestamps]
     message << "#{fix.message}".foreground(:yellow)
+    message << " #{fix.hash}".foreground(:blue)
     puts message
   end
 
